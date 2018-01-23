@@ -1,50 +1,83 @@
 <!--<ngx-graph-->
 <!--class="chart-container"-->
 <!--[view]="view"-->
-<!--[autoZoom]="autoZoom"-->
 <!--[legend]="showLegend"-->
-<!--[links]="hierarchialGraph.links"-->
+<!--[links]="bla"-->
 <!--(legendLabelClick)="onLegendLabelClick($event)"-->
-<!--[nodes]="hierarchialGraph.nodes"-->
-<!--[scheme]="colorScheme"-->
+<!--[nodes]="asd"-->
 <!--[orientation]="orientation"-->
 <!--[curve]="curve"-->
+<!--[schemeType]="tests"-->
 <!--(select)="select($event)">-->
 
-<!--<ng-template #defsTemplate>-->
-<!--<svg:marker id="arrow" viewBox="0 -5 10 10" refX="8" refY="0" markerWidth="4" markerHeight="4" orient="auto">-->
-<!--<svg:path d="M0,-5L10,0L0,5" class="arrow-head" />-->
-<!--</svg:marker>-->
-<!--</ng-template>-->
-
-<!--<ng-template #nodeTemplate let-node>-->
-<!--<svg:g class="node"-->
-<!--ngx-tooltip-->
-<!--[tooltipPlacement]="'top'"-->
-<!--[tooltipType]="'tooltip'"-->
-<!--[tooltipTitle]="node.label">-->
-<!--<svg:rect [attr.width]="node.width" [attr.height]="node.height" [attr.fill]="node.options.color" />-->
-<!--<svg:text alignment-baseline="central" [attr.x]="10" [attr.y]="node.height / 2">{{node.label}}</svg:text>-->
-<!--</svg:g>-->
-<!--</ng-template>-->
-
-<!--<ng-template #linkTemplate let-link>-->
-<!--<svg:g class="edge">-->
-<!--<svg:path-->
-<!--class="line"-->
-<!--stroke-width="2"-->
-<!--marker-end="url(#arrow)" >-->
-<!--</svg:path>-->
-<!--<svg:text class="edge-label" text-anchor="middle">-->
-<!--<textPath-->
-<!--class="text-path"-->
-<!--[attr.href]="'#' + link.id"-->
-<!--[style.dominant-baseline]="link.dominantBaseline"-->
-<!--startOffset="50%">-->
-<!--{{link.label}}-->
-<!--</textPath>-->
-<!--</svg:text>-->
-<!--</svg:g>-->
-<!--</ng-template>-->
 
 <!--</ngx-graph>-->
+
+
+<div>
+  <div>
+    <h2>Wierzchołki</h2>
+<ul class="nodes">
+  <li *ngFor="let node of nodes"
+      [class.selected]="node === selectedNode"
+      (click)="onSelect(node)">
+    <span class="badge">{{node.id}}</span> {{node.name}}
+  </li>
+</ul>
+  </div>
+  <button (click)="setpolFlag()">Pokaż połączenia</button>
+  <div *ngIf="polFlag">
+
+    <h2>Połączenia</h2>
+<ul class="nodes">
+  <li *ngFor="let node of arcs">
+    Z {{node.from}}  do {{node.to}} wartość {{node.value}}
+  </li>
+</ul></div>
+</div>
+
+
+
+<button (click)="getGreedy()">Przeszukaj Graf</button>
+
+<div *ngIf="gFlag">
+  <h2>Optymalna ścieżka to: {{greedyString}}</h2>
+
+
+</div>
+
+<div *ngIf="selectedNode">
+
+  <h2>Szczegóły wierzchołka {{ selectedNode.name | uppercase }} </h2>
+  <div><span>id: </span>{{selectedNode.id}}</div>
+  <div>
+    <label> Nazwa:
+      <!--<input [(ngModel)]="selectedNode.name" placeholder="name">-->
+      {{selectedNode.name}}
+    </label>
+
+  </div>
+  <div><span>Typ: </span>{{selectedNode.type}}</div>
+    <div><span>Wyjściowe</span>
+      <li *ngFor="let node of selectedNode.outgoing"
+      >
+        Z <span class="badge">{{node.from}}</span>
+        Do <span class="badge">{{node.to}}</span>
+        Wartość <span class="badge">{{node.value}}</span>
+      </li>
+
+
+    </div>
+    <div><span>Wejściowe</span>
+      <li *ngFor="let node of selectedNode.incoming"
+      >
+        Z <span class="badge">{{node.from}}</span>
+        Do <span class="badge">{{node.to}}</span>
+        Wartość <span class="badge">{{node.value}}</span>
+      </li>
+
+
+    </div>
+
+
+  </div>

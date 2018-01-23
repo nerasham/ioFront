@@ -2,6 +2,6 @@ export class Node {
   id: number;
   name: string;
   type: string;
-  incomnig: number[];
+  incoming: number[];
   outgoing: number[];
 }

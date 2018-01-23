@@ -1,24 +1,26 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers} from '@angular/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+import { Observable } from 'rxjs/Observable';
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+};
 @Injectable()
 export class AppService {
 
   private headers = new Headers({'Content-Type': 'application/json'});
-  private dictsUrl = 'localhost:8080/jason/test /';
+  private Url = 'http://192.168.0.105:8080/jason';
 
-  constructor(private http: Http) {
+  constructor(private http: HttpClient) {
   }
 
-  getDicts(): Promise<any> {
-    return this.http.get(this.dictsUrl)
-      .toPromise();
-  }
 
-  private handleError(error: any): Promise<any> {
-    console.error('An error occurred', error); // for demo purposes only
-    return Promise.reject(error.message || error);
+  getNode (): Observable<any> {
+    return this.http.get<any>(this.Url + '/test2');
   }
-
+  getGreedy (): Observable<any[]> {
+    return this.http.get<any[]>(this.Url + '/greedy');
+  }
 
 }
